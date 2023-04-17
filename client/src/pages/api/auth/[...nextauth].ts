@@ -1,15 +1,10 @@
 import NextAuth from "next-auth/next";
-import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { AuthOptions } from "next-auth";
 
 export const authOptions: AuthOptions = {
 	providers: [
-		GoogleProvider({
-			clientId: process.env.GOOGLE_CLIENT_ID || "",
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-		}),
 		CredentialsProvider({
 			name: "Todo Login",
 			credentials: {
@@ -36,11 +31,22 @@ export const authOptions: AuthOptions = {
 	],
 	callbacks: {
 		jwt: async (ctx) => {
+			if (ctx.user) {
+				const user = ctx.user as any;
+				return {
+					...ctx.token,
+					access: user?.accessToken ?? null,
+					refresh: user?.refreshToken ?? null,
+				};
+			}
 			return ctx.token;
 		},
 
 		async session(ctx) {
-			return ctx.session;
+			return {
+				...ctx.session,
+				token: ctx.token,
+			};
 		},
 	},
 	secret: process.env.JWT_SECRET,

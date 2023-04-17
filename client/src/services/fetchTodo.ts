@@ -4,29 +4,32 @@ import { baseAxios } from "@/utils/baseAxios";
 import { getSession } from "next-auth/react";
 
 export type FetchTodoArg = {
-	_sort?: keyof Todo;
-	_order?: "asc" | "desc";
-	q?: string;
-	_page?: any;
-	_limit: number;
+	// sort: keyof Todo;
+	// order: "asc" | "desc";
+	searchText?: string;
+	page?: number;
+	limit: number;
+};
+
+export type FetchTodoResponse = {
+	results: Todo[];
+	total: number;
+	next: {
+		page: number;
+		limit: number;
+	} | null;
+	prev: {
+		page: number;
+		limit: number;
+	} | null;
 };
 
 const fetchTodo = async (arg: FetchTodoArg) => {
-	const session = await getSession();
-	const { data, headers } = await baseAxios.get<Todo[]>("/todos", {
+	const { data } = await baseAxios.get<FetchTodoResponse>("/todos", {
 		params: arg,
 	});
 
-	const total = headers["x-total-count"]
-		? parseInt(headers["x-total-count"])
-		: 0;
-
-	// const todosWithAuthor = data.map((todo) => ({
-	// 	...todo,
-	// 	author: session?.user?.image || "Not Image",
-	// }));
-
-	return { data, total };
+	return data;
 };
 
 export const useFetchTodo = (arg: FetchTodoArg) => {
@@ -34,8 +37,10 @@ export const useFetchTodo = (arg: FetchTodoArg) => {
 		queryFn: () => fetchTodo(arg),
 		queryKey: ["todos", arg],
 		initialData: {
-			data: [],
+			results: [],
 			total: 0,
+			next: null,
+			prev: null,
 		},
 	});
 

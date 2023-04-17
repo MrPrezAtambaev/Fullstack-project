@@ -36,16 +36,16 @@ const TodoList = () => {
 	return (
 		<>
 			<Stack>
-				{todos.data.map((todo) => (
+				{todos.results.map((todo) => (
 					<TodoItem todo={todo} key={todo.id} />
 				))}
 			</Stack>
 			<Group position="center">
 				<Pagination
-					value={todoFilters._page ?? 1}
+					value={todoFilters.page ?? 1}
 					onChange={handleChange}
 					siblings={1}
-					total={Math.ceil(todos.total / todoFilters._limit)}
+					total={Math.ceil(todos.total / todoFilters.limit)}
 				/>
 			</Group>
 		</>

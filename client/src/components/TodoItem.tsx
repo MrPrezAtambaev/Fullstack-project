@@ -59,19 +59,8 @@ const TodoItem = ({ todo }: Props) => {
 			</Text>
 
 			<Group align="center" spacing={5} ml="auto">
-				<Tooltip label={todo.author_email ?? "Anonymous"}>
-					<Avatar
-						src={
-							todo.author_avatar
-								? todo.author_avatar
-								: todo.author_email
-								? `https://gravatar.com/avatar/${todo.author_email}?s=400&d=robohash&r=x`
-								: undefined
-						}
-						placeholder={todo.author_avatar ?? "?"}
-						size="sm"
-						radius="xl"
-					/>
+				<Tooltip label={todo.author?.email ?? "Anonymous"}>
+					<Avatar size="sm" radius="xl" />
 				</Tooltip>
 				<ActionIcon
 					size="xs"

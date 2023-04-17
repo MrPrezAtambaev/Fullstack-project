@@ -1,12 +1,13 @@
 import { FetchTodoArg } from "@/services/fetchTodo";
+import { Todo } from "@/utils/types/todo";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: FetchTodoArg = {
-	_sort: "created_at",
-	_order: "desc",
-	q: "",
-	_page: 1,
-	_limit: 5,
+	// sort: "created_at",
+	// order: "desc",
+	searchText: "",
+	page: 1,
+	limit: 5,
 };
 
 export const todoFiltersSlice = createSlice({
@@ -14,10 +15,11 @@ export const todoFiltersSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		setSearchText(state, action: PayloadAction<string>) {
-			state.q = action.payload;
+			state.searchText = action.payload;
+			state.page = 1;
 		},
 		setPage(state, action: PayloadAction<number>) {
-			state._page = action.payload;
+			state.page = action.payload;
 		},
 	},
 });

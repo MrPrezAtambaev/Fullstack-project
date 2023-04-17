@@ -1,52 +1,59 @@
 import { baseAxios } from "@/utils/baseAxios";
 import { Button, FocusTrap, Stack, TextInput } from "@mantine/core";
+import { useForm, zodResolver } from "@mantine/form";
 import React, { useState } from "react";
+import { z } from "zod";
 
-const Register = ({ onSubmit }: any) => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [password2, setPassword2] = useState("");
-	const handleRegister = async () => {
-		try {
-			const { data } = await baseAxios.post("/auth/signup", {
-				email,
-				password,
-				password2,
-			});
-			console.log(data);
-			setEmail("");
-			setPassword("");
-			setPassword2("");
-			onSubmit();
-		} catch (e) {
-			console.log(e);
-		}
+type Props = {
+	onSubmit(values: RegFormValues): void;
+	defaultValues?: Partial<RegFormValues>;
+};
+
+const regSchema = z.object({
+	email: z.string().email(),
+	password: z.string(),
+	password2: z.string(),
+});
+
+export type RegFormValues = z.infer<typeof regSchema>;
+
+const Register = ({ onSubmit, defaultValues = {} }: Props) => {
+	const form = useForm<RegFormValues>({
+		initialValues: {
+			email: "",
+			password: "",
+			password2: "",
+			...defaultValues,
+		},
+		validate: zodResolver(regSchema),
+	});
+	const handleRegister = async (values: RegFormValues) => {
+		onSubmit(values);
+		form.reset();
 	};
 	return (
 		<FocusTrap active>
-			<form>
+			<form onSubmit={form.onSubmit(handleRegister)}>
 				<Stack>
 					<TextInput
 						type="email"
 						placeholder="Email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						error="Такой email уже есть"
+						{...form.getInputProps("email")}
 					/>
 					<TextInput
 						type="text"
 						placeholder="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						error="Пароли не близнецы"
+						{...form.getInputProps("password")}
 					/>
 					<TextInput
 						type="text"
 						placeholder="Password Confirm"
-						value={password2}
-						onChange={(e) => setPassword2(e.target.value)}
+						error="Пароли не близнецы"
+						{...form.getInputProps("password2")}
 					/>
-					<Button type="button" onClick={handleRegister}>
-						Register
-					</Button>
+					<Button type="submit">Register</Button>
 				</Stack>
 			</form>
 		</FocusTrap>

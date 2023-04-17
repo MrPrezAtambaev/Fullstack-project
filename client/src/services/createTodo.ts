@@ -4,18 +4,11 @@ import { Todo } from "@/utils/types/todo";
 import { baseAxios } from "@/utils/baseAxios";
 
 type CreateTodoArg = {
-	data: Omit<Todo, "id" | "created_at" | "author_email" | "author_avatar">;
+	data: Omit<Todo, "id" | "authorId" | "createdAt" | "updatedAt">;
 };
 
 const createTodo = async (arg: CreateTodoArg) => {
-	const session = await getSession();
-
-	const { data } = await baseAxios.post<Todo>("/todos", {
-		...arg.data,
-		author_avatar: session?.user?.image ?? null,
-		author_email: session?.user?.email ?? null,
-		created_at: Date.now(),
-	});
+	const { data } = await baseAxios.post<Todo>("/todos", arg.data);
 	return data;
 };
 
