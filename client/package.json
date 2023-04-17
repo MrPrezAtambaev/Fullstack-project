@@ -1,0 +1,41 @@
+{
+  "name": "sobes",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "server": "json-server --watch ./db.json --port 8000"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "^6.0.6",
+    "@mantine/ds": "^6.0.6",
+    "@mantine/form": "^6.0.6",
+    "@mantine/hooks": "^6.0.6",
+    "@mantine/modals": "^6.0.6",
+    "@mantine/next": "^6.0.6",
+    "@mantine/notifications": "^6.0.6",
+    "@reduxjs/toolkit": "^1.9.3",
+    "@tabler/icons-react": "^2.14.0",
+    "@tanstack/react-query": "^4.28.0",
+    "@tanstack/react-query-devtools": "^4.29.0",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.33",
+    "@types/react-dom": "18.0.11",
+    "axios": "^1.3.5",
+    "next": "13.3.0",
+    "next-auth": "^4.22.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.5",
+    "typescript": "5.0.3",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "json-server": "^0.17.3"
+  }
+}
