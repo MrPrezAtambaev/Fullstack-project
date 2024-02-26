@@ -38,7 +38,7 @@ const todoFiltersQuerySchema = z.object({
 todoRoutes.get("/", async (req, res) => {
 	const query = todoFiltersQuerySchema.parse(req.query);
 
-	const filters: Prisma.TodoWhereInput[] = [];
+	const filters = [];
 
 	if (query.searchText) {
 		filters.push({
