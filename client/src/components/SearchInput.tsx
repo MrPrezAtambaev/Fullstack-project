@@ -8,7 +8,7 @@ import { shallowEqual } from "react-redux";
 
 const SearchInput = () => {
 	const dispatch = useAppDispatch();
-	const searchText = useAppSelector((state) => state.todoFilters.q);
+	const searchText = useAppSelector((state) => state.todoFilters.searchText);
 
 	const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
 		const val = e.currentTarget.value;
